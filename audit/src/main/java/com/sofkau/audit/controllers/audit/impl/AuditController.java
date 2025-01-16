@@ -24,9 +24,9 @@ public class AuditController implements IAuditController {
 
 
     @Override
-    @GetMapping("/balance/{accountNumber}")
+    @GetMapping(value ="/balance/{accountNumber}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Mono<AccountBalanceExitDTO> getAccountBalance(@Validated @PathVariable Integer accountNumber) {
+    public Flux<AccountBalanceExitDTO> getAccountBalance(@Validated @PathVariable Integer accountNumber) {
         return auditServices.getAccountBalance(accountNumber);
     }
 

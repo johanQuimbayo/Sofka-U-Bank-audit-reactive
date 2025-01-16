@@ -10,7 +10,7 @@ public interface IAuditServices {
 
 
 
-    Mono<AccountBalanceExitDTO> getAccountBalance(Integer accountId);
+    Flux<AccountBalanceExitDTO> getAccountBalance(Integer accountId);
 
     Flux<TransactionExitDTO> getAuditAccount(Integer accountId);
 }
