@@ -28,10 +28,11 @@ public class AuditServices implements IAuditServices {
 
     @Override
     public Mono<AccountBalanceExitDTO> getAccountBalance(Integer accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber)
+        return accountRepository.findWithTailableCursorByAccountNumber(accountNumber)
                 .switchIfEmpty(Mono.error(new NotFoundException("Account not found")))
                 .map(account -> AccountBalanceExitDTO.builder()
                 .userDocument(account.getUserDocument())
+                .accountNumber(account.getAccountNumber())
                 .balance(account.getBalance()).build());
     }
 

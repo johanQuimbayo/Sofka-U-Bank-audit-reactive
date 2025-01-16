@@ -20,7 +20,7 @@ import java.util.Date;
 public class Transaction {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     private Integer userDocument;
 

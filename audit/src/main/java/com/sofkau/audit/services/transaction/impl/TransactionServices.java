@@ -51,7 +51,7 @@ public class TransactionServices implements ITransactionService {
     }
 
     private Mono<Account> validateTransactionAccount(Integer accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber)
+        return accountRepository.findWithTailableCursorByAccountNumber(accountNumber)
                 .switchIfEmpty(Mono.error(new NotFoundException("Account not found")));
     }
 
@@ -59,6 +59,9 @@ public class TransactionServices implements ITransactionService {
         if (transactionRequestDTO.getType().equals(TransactionsType.DEPOSIT)) {
             account.setBalance(account.getBalance() + transactionRequestDTO.getAmount());
         }else {
+            if( transactionRequestDTO.getAmount() > account.getBalance()) {
+                return Mono.error(new IllegalArgumentException("the withdraw cant be greater than the account balance"));
+            }
             account.setBalance(account.getBalance() - transactionRequestDTO.getAmount());
         }
         return accountRepository.save(account);
@@ -67,7 +70,7 @@ public class TransactionServices implements ITransactionService {
     private Mono<Account> saveTransaction(TransactionRequestDTO transactionRequestDTO, Account account) {
         return Mono.defer(() -> {
             Transaction transaction = transactionMapper.toEntity(transactionRequestDTO, account);
-            return transactionRepository.save(transaction).thenReturn(account);
+            return transactionRepository.insert(transaction).thenReturn(account);
         });
     }
 }

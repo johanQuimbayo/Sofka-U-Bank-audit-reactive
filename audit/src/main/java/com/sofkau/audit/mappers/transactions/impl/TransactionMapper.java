@@ -1,5 +1,6 @@
 package com.sofkau.audit.mappers.transactions.impl;
 
+import com.sofkau.audit.commons.constans.TransactionsType;
 import com.sofkau.audit.commons.dtos.entry.TransactionRequestDTO;
 import com.sofkau.audit.commons.dtos.exit.TransactionExitDTO;
 import com.sofkau.audit.data.models.Account;
@@ -24,7 +25,7 @@ public class TransactionMapper implements ITransactionMapper {
                 .type(transactionRequestDTO.getType())
                 .isSuccess(true)
                 .dateOperation(new Date())
-                .preBalance(account.getBalance())
+                .preBalance(transactionRequestDTO.getType().equals(TransactionsType.DEPOSIT) ? account.getBalance() - transactionRequestDTO.getAmount() :  account.getBalance() + transactionRequestDTO.getAmount())
                 .postBalance(account.getBalance())
                 .build();
 

@@ -6,6 +6,7 @@ import com.sofkau.audit.controllers.audit.IAuditController;
 import com.sofkau.audit.services.audit.IAuditServices;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -22,13 +23,15 @@ public class AuditController implements IAuditController {
 
 
     @Override
-    @GetMapping("balance")
+    @GetMapping("/balance/{accountNumber}")
+    @ResponseStatus(HttpStatus.OK)
     public Mono<AccountBalanceExitDTO> getAccountBalance(@Validated @PathVariable Integer accountNumber) {
         return auditServices.getAccountBalance(accountNumber);
     }
 
     @Override
-    @GetMapping("/Audit")
+    @GetMapping("/history/{accountNumber}")
+    @ResponseStatus(HttpStatus.OK)
     public Flux<TransactionExitDTO> getAuditAccount(@Validated @PathVariable Integer accountNumber) {
         return auditServices.getAuditAccount(accountNumber);
     }
