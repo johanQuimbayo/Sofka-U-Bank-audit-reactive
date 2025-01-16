@@ -51,8 +51,8 @@ public class TransactionServices implements ITransactionService {
     }
 
     private Mono<Account> validateTransactionAccount(Integer accountNumber) {
-        return accountRepository.findWithTailableCursorByAccountNumber(accountNumber)
-                .switchIfEmpty(Mono.error(new NotFoundException("Account not found")));
+        return accountRepository.findByAccountNumber(accountNumber)
+                .switchIfEmpty( Mono.error(new NotFoundException("Account not found")));
     }
 
     private Mono<Account> updateAccount(Account account, TransactionRequestDTO transactionRequestDTO) {

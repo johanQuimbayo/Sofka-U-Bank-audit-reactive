@@ -10,6 +10,6 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface AccountRepository  extends ReactiveMongoRepository<Account, String> {
 
-    @Tailable
-    public Mono<Account> findWithTailableCursorByAccountNumber(Integer accountNumber);
+
+    public Mono<Account> findByAccountNumber (Integer accountNumber);
 }
