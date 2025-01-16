@@ -45,7 +45,7 @@ class AuditControllerTest {
                 .build();
 
         Mockito.when(auditServices.getAccountBalance(accountNumber))
-                .thenReturn(Mono.just(responseDTO));
+                .thenReturn(Flux.just(responseDTO));
 
         // Act & Assert
         webTestClient.get()
@@ -66,7 +66,7 @@ class AuditControllerTest {
         int accountNumber = 9999; // Non-existent account
 
         Mockito.when(auditServices.getAccountBalance(accountNumber))
-                .thenReturn(Mono.error(new NotFoundException("Account not found")));
+                .thenReturn(Flux.error(new NotFoundException("Account not found")));
 
         // Act & Assert
         webTestClient.get()
