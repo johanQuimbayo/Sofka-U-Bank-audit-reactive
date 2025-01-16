@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+@Validated
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/transaction")

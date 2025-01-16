@@ -7,6 +7,7 @@ import com.sofkau.audit.services.audit.IAuditServices;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -30,7 +31,7 @@ public class AuditController implements IAuditController {
     }
 
     @Override
-    @GetMapping("/history/{accountNumber}")
+    @GetMapping(value = "/history/{accountNumber}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Flux<TransactionExitDTO> getAuditAccount(@Validated @PathVariable Integer accountNumber) {
         return auditServices.getAuditAccount(accountNumber);

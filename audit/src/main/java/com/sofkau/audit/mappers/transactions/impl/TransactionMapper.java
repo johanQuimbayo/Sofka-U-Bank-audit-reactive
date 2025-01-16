@@ -38,7 +38,7 @@ public class TransactionMapper implements ITransactionMapper {
             throw new IllegalArgumentException("transaction can't be empty");
         }
         return TransactionExitDTO.builder()
-                .id(transaction.getId().toString())
+                .id(transaction.getId())
                 .userDocument(transaction.getUserDocument())
                 .accountNumber(transaction.getAccountNumber())
                 .amount(transaction.getAmount())

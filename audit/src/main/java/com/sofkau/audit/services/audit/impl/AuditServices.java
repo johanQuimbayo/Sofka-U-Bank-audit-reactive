@@ -28,7 +28,7 @@ public class AuditServices implements IAuditServices {
 
     @Override
     public Mono<AccountBalanceExitDTO> getAccountBalance(Integer accountNumber) {
-        return accountRepository.findWithTailableCursorByAccountNumber(accountNumber)
+        return accountRepository.findByAccountNumber(accountNumber)
                 .switchIfEmpty(Mono.error(new NotFoundException("Account not found")))
                 .map(account -> AccountBalanceExitDTO.builder()
                 .userDocument(account.getUserDocument())
@@ -40,7 +40,10 @@ public class AuditServices implements IAuditServices {
     @Override
     public Flux<TransactionExitDTO> getAuditAccount(Integer accountNumber) {
         return transactionRepository.findWithTailableCursorByAccountNumber(accountNumber)
-                .switchIfEmpty(Flux.error(new NotFoundException("Not have a logs")))
+                .onErrorResume(e -> {
+                    System.out.println("error " + e.getMessage());
+                    return Flux.error(new RuntimeException("Error accessing audit logs"));
+                })
                 .map(transaction -> transactionMapper.toExitDTO(transaction));
     }
 }
