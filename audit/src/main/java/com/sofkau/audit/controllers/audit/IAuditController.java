@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 public interface IAuditController {
 
-    Mono<AccountBalanceExitDTO> getAccountBalance(Integer accountNumber);
+    Flux<AccountBalanceExitDTO> getAccountBalance(Integer accountNumber);
 
     Flux<TransactionExitDTO> getAuditAccount(Integer accountNumber);
 

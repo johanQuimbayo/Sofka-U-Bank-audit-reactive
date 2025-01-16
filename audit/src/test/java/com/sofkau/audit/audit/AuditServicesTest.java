@@ -49,7 +49,7 @@ class AuditServicesTest {
                 .thenReturn(Mono.empty());
 
 
-        Mono<AccountBalanceExitDTO> result = auditServices.getAccountBalance(accountNumber);
+        Flux<AccountBalanceExitDTO> result = auditServices.getAccountBalance(accountNumber);
 
 
         StepVerifier.create(result)
